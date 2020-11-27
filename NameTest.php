@@ -1,142 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class YTApi extends CI_Controller {
+class NameTest extends CI_Controller {
 
 	public function index()
 	{
 		
-		exit(1);
-		if (!file_exists($_SERVER['DOCUMENT_ROOT'].'/vendor/autoload.php')) {
-		  throw new Exception(sprintf('Please run "composer require google/apiclient:~2.0" in "%s"', __DIR__));
-		}
-		require_once $_SERVER['DOCUMENT_ROOT'].'/vendor/autoload.php';
+		testname();
 		
-		$client = new Google_Client();
-		$client->setRedirectUri('http://naertest.proshine.com.tw/intra/YTApi/Callback');
-		$client->setApplicationName('API code samples');
-		$client->setScopes([
-			'https://www.googleapis.com/auth/youtube.upload',
-			'https://www.googleapis.com/auth/youtube',
-			'https://www.googleapis.com/auth/youtubepartner'
-		]);
-		
-		$client->setAuthConfig($_SERVER['DOCUMENT_ROOT'].'/client_secret_955184816048-no0skn5i5lmrfka1bv6idpel8303hhlr.apps.googleusercontent.com.json');
-		$client->setAccessType('offline');
-		$authUrl = $client->createAuthUrl();
-		redirect($authUrl);
 	}
-	
-	public function Callback()
-	{
-		if (!file_exists($_SERVER['DOCUMENT_ROOT'].'/vendor/autoload.php')) {
-		  throw new Exception(sprintf('Please run "composer require google/apiclient:~2.0" in "%s"', __DIR__));
-		}
-		require_once $_SERVER['DOCUMENT_ROOT'].'/vendor/autoload.php';
-		
-		$client = new Google_Client();
-		$client->setRedirectUri('http://naertest.proshine.com.tw/sample.php');
-		$client->setApplicationName('API code samples');
-		$client->setScopes([
-			'https://www.googleapis.com/auth/youtube.upload',
-			'https://www.googleapis.com/auth/youtube',
-			'https://www.googleapis.com/auth/youtubepartner'
-		]);
-		
-		$client->setAuthConfig($_SERVER['DOCUMENT_ROOT'].'/client_secret_955184816048-no0skn5i5lmrfka1bv6idpel8303hhlr.apps.googleusercontent.com.json');
-		$client->setAccessType('offline');
-		
-		if (isset($_GET['code'])) {
-			$token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
-		}
-		$client->setAccessToken($token);
-		
-		$youtube = new Google_Service_YouTube($client);
-		
-		/*
-		// Define service object for making API requests.
-		$service = new Google_Service_YouTube($client);
-
-		$queryParams=array("file"=>$_SERVER['DOCUMENT_ROOT']."\WIN_20200818_10_38_20_Pro.mp4","title"=>"TEST VIDEO","description"=>"test description"."category_id"=>"22","keywords"=>"","privacy_status"=>"private");
-
-		$response = $service->channels->listChannels('snippet,contentDetails,statistics', $queryParams);
-		print_r($response);
-		*/
-		
-		// REPLACE this value with the path to the file you are uploading.
-		$videoPath = $_SERVER['DOCUMENT_ROOT']."/WIN_20200818_10_38_20_Pro.mp4";
-
-		// Create a snippet with title, description, tags and category ID
-		// Create an asset resource and set its snippet metadata and type.
-		// This example sets the video's title, description, keyword tags, and
-		// video category.
-		$snippet = new Google_Service_YouTube_VideoSnippet();
-		$snippet->setTitle("Test title");
-		$snippet->setDescription("Test description");
-		$snippet->setTags(array("tag1", "tag2"));
-
-		// Numeric video category. See
-		// https://developers.google.com/youtube/v3/docs/videoCategories/list
-		$snippet->setCategoryId("22");
-
-		// Set the video's status to "public". Valid statuses are "public",
-		// "private" and "unlisted".
-		$status = new Google_Service_YouTube_VideoStatus();
-		$status->privacyStatus = "private";
-
-		// Associate the snippet and status objects with a new video resource.
-		$video = new Google_Service_YouTube_Video();
-		$video->setSnippet($snippet);
-		$video->setStatus($status);
-
-		// Specify the size of each chunk of data, in bytes. Set a higher value for
-		// reliable connection as fewer chunks lead to faster uploads. Set a lower
-		// value for better recovery on less reliable connections.
-		$chunkSizeBytes = 1 * 1024 * 1024;
-
-		// Setting the defer flag to true tells the client to return a request which can be called
-		// with ->execute(); instead of making the API call immediately.
-		$client->setDefer(true);
-
-		// Create a request for the API's videos.insert method to create and upload the video.
-		$insertRequest = $youtube->videos->insert("status,snippet", $video);
-
-		// Create a MediaFileUpload object for resumable uploads.
-		$media = new Google_Http_MediaFileUpload(
-			$client,
-			$insertRequest,
-			'video/*',
-			null,
-			true,
-			$chunkSizeBytes
-		);
-		$media->setFileSize(filesize($videoPath));
-
-
-		// Read the media file and upload it chunk by chunk.
-		$status = false;
-		$handle = fopen($videoPath, "rb");
-		while (!$status && !feof($handle)) {
-		  $chunk = fread($handle, $chunkSizeBytes);
-		  $status = $media->nextChunk($chunk);
-		}
-
-		fclose($handle);
-
-		// If you want to make other calls after the file upload, set setDefer back to false
-		$client->setDefer(false);
-
-		$htmlBody="";
-		$htmlBody .= "<h3>Video Uploaded</h3><ul>";
-		$htmlBody .= sprintf('<li>%s (%s)</li>',
-			$status['snippet']['title'],
-			$status['id']);
-
-		$htmlBody .= '</ul>';
-
-	}
-	
-	
 	
 	public function testname()
 	{
@@ -227,55 +99,8 @@ class YTApi extends CI_Controller {
 	{
 		switch($type)
 		{
-			//金
-			case '金土木':
-			return '欣慶果能成功順調，容易發展達到目的，亦能成富、成貴，唯在幼少年期之境遇不穩安而較多變化、若為凶數尤其以幼少年期間，恐有胃腸疾患及遭崩塌或墜落物所傷之慮。 【中吉．＋８０分】';
-			break;
-			
-			case '金土火':
-			return '可獲得意外之大成功，名利雙收，且得大發展，諸事順利隆昌，大吉大利。但數理若凶則恐好景不長。若無凶數，則可免憂慮。 【大吉昌．＋９０分】';
-			break;
-			
-			case '金土土':
-			return '易達目的，輕易成功，名利雙收，一帆風順，福泰鴻量，萬事安寧，順利發展，生涯境遇安泰，即使數理有凶也可免於災禍。 【大吉昌．＋９０分】';
-			break;
-			
-			case '金土金':
-			return '基礎穩固，希望易達，順利成功發展，名譽與福份倆俱充足，隆昌威儀，大成功、大餘慶、繁華榮隆。 【大吉昌．＋９０分】';
-			break;
-			
-			case '金土水':
-			return '青年多勞，切莫悲觀則勞終有成，與人合夥須善處理，更勝獨營。於中年或壯年可得成功，名利雙收，並得大發展之慶，可惜因基礎運劣，使成功運受牽制，故突發之災遇或損失也不少。【吉多於凶．＋４０分】';
-			break;
-			
-			case '金金土':
-			return '容易成功，達到目的，境遇安固，身心健全，名利雙收，威權顯達，運勢昌隆。 【大吉昌．＋９０分】';
-			break;
-			
-			case '金金水':
-			return '以堅志毅力，克服艱難，達成功擴展，身心皆健，若生辰之原命喜金水者，得此名獲【＋９０分】。但人、地兩格其一是凶者，則雖也能成功發展於一時，但終因急變而逐漸的沒落崩敗或失和、孤立或遭遇危身災險。 【中吉．＋８０分】';
-			break;
-			
-			case '金水木':
-			return '境遇安全，長輩惠澤，承受父祖之餘德，前輩之提拔，而可獲得意外之成功發達。但數理若凶，或許陷於病弱。 【大吉昌．＋９０分】';
-			break;
-			
-			case '金水土':
-			return '得長輩或上司之惠助，再加上自身之勤勉，而於中年或壯年可獲得相當之發展，但因基礎運劣之故，於成功之後，又會有很多次之再成敗，生涯多勞，難亨安逸，幸而水在土上，池塘之家，亦順天然之景故，雖是相剋，凶意則微。 【吉多於凶．＋４０分】';
-			break;
-			
-			case '金水金':
-			return '基礎穩固安然，財源廣進，又有父祖之蔭益及上司之提拔，易得意外之助力，而可獲得大成功，大發展，名利豐收。威權、名望、地位俱皆興隆寬宏殊勝之配置。 【大吉昌．＋９０分】';
-			break;
-			
-			case '金水水':
-			return '承父祖之餘德，得長者之栽培，或用人得當，得大成功及發展，原命若喜水木者更佳【９０分】。若凶數者：成又轉敗，陷於離亂變動，至晚年終歸孤獨失敗，又早年有落水災遇，生涯九死一生之命格。又須戒色，以防色變及刀殺之危。 【中吉．＋８０分】';
-			break;
-		}
-	}
-
-	/*
-	case '水木木':
+			//水
+			case '水木木':
 			return '基礎安泰，長輩惠助，排除萬難，而順利成功及發展，繁榮隆昌，人緣殊勝，利蔭六親。 【大吉昌．＋９０分】';
 			break;
 
@@ -374,8 +199,51 @@ class YTApi extends CI_Controller {
 			case '水水水':
 			return '唯獨若有連珠局者，論為大吉，原命喜水尤佳。有一時之大勢力，大發展而得名取利，但若品行不端，行為不修，勝與敗均極端而短暫終於變成荒亡流散，如泡沬夢幻而結果是悲運滅亡又孤獨伶仃人生。 【中吉．＋６５分】';
 			break;
-	
-	*/
-	
-	
+			
+			//金
+			case '金土木':
+			return '欣慶果能成功順調，容易發展達到目的，亦能成富、成貴，唯在幼少年期之境遇不穩安而較多變化、若為凶數尤其以幼少年期間，恐有胃腸疾患及遭崩塌或墜落物所傷之慮。 【中吉．＋８０分】';
+			break;
+			
+			case '金土火':
+			return '可獲得意外之大成功，名利雙收，且得大發展，諸事順利隆昌，大吉大利。但數理若凶則恐好景不長。若無凶數，則可免憂慮。 【大吉昌．＋９０分】';
+			break;
+			
+			case '金土土':
+			return '易達目的，輕易成功，名利雙收，一帆風順，福泰鴻量，萬事安寧，順利發展，生涯境遇安泰，即使數理有凶也可免於災禍。 【大吉昌．＋９０分】';
+			break;
+			
+			case '金土金':
+			return '基礎穩固，希望易達，順利成功發展，名譽與福份倆俱充足，隆昌威儀，大成功、大餘慶、繁華榮隆。 【大吉昌．＋９０分】';
+			break;
+			
+			case '金土水':
+			return '青年多勞，切莫悲觀則勞終有成，與人合夥須善處理，更勝獨營。於中年或壯年可得成功，名利雙收，並得大發展之慶，可惜因基礎運劣，使成功運受牽制，故突發之災遇或損失也不少。【吉多於凶．＋４０分】';
+			break;
+			
+			case '金金土':
+			return '容易成功，達到目的，境遇安固，身心健全，名利雙收，威權顯達，運勢昌隆。 【大吉昌．＋９０分】';
+			break;
+			
+			case '金金水':
+			return '以堅志毅力，克服艱難，達成功擴展，身心皆健，若生辰之原命喜金水者，得此名獲【＋９０分】。但人、地兩格其一是凶者，則雖也能成功發展於一時，但終因急變而逐漸的沒落崩敗或失和、孤立或遭遇危身災險。 【中吉．＋８０分】';
+			break;
+			
+			case '金水木':
+			return '境遇安全，長輩惠澤，承受父祖之餘德，前輩之提拔，而可獲得意外之成功發達。但數理若凶，或許陷於病弱。 【大吉昌．＋９０分】';
+			break;
+			
+			case '金水土':
+			return '得長輩或上司之惠助，再加上自身之勤勉，而於中年或壯年可獲得相當之發展，但因基礎運劣之故，於成功之後，又會有很多次之再成敗，生涯多勞，難亨安逸，幸而水在土上，池塘之家，亦順天然之景故，雖是相剋，凶意則微。 【吉多於凶．＋４０分】';
+			break;
+			
+			case '金水金':
+			return '基礎穩固安然，財源廣進，又有父祖之蔭益及上司之提拔，易得意外之助力，而可獲得大成功，大發展，名利豐收。威權、名望、地位俱皆興隆寬宏殊勝之配置。 【大吉昌．＋９０分】';
+			break;
+			
+			case '金水水':
+			return '承父祖之餘德，得長者之栽培，或用人得當，得大成功及發展，原命若喜水木者更佳【９０分】。若凶數者：成又轉敗，陷於離亂變動，至晚年終歸孤獨失敗，又早年有落水災遇，生涯九死一生之命格。又須戒色，以防色變及刀殺之危。 【中吉．＋８０分】';
+			break;
+		}
+	}
 }
